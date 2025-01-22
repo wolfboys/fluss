@@ -99,7 +99,7 @@ public final class CoordinatorEventManager implements EventManager {
                     eventProcessor.process(event);
                 }
             } catch (Throwable e) {
-                log.error("Uncaught error processing event {}.", event, e);
+                LOG.error("Uncaught error processing event {}.", event, e);
             }
         }
     }

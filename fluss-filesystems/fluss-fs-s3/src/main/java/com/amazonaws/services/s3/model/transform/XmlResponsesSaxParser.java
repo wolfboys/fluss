@@ -108,7 +108,7 @@ import static com.amazonaws.util.StringUtils.UTF8;
  * documents into objects.
  */
 public class XmlResponsesSaxParser {
-    private static final Log log = LogFactory.getLog(XmlResponsesSaxParser.class);
+    private static final Log LOG = LogFactory.getLog(XmlResponsesSaxParser.class);
 
     private static final SAXParserFactory SAX_PARSER_FACTORY = SAXParserFactory.newInstance();
 
@@ -147,8 +147,8 @@ public class XmlResponsesSaxParser {
             throws IOException {
         try {
 
-            if (log.isDebugEnabled()) {
-                log.debug("Parsing XML response document with handler: " + handler.getClass());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Parsing XML response document with handler: " + handler.getClass());
             }
 
             BufferedReader breader =
@@ -165,8 +165,8 @@ public class XmlResponsesSaxParser {
             try {
                 inputStream.close();
             } catch (IOException e) {
-                if (log.isErrorEnabled()) {
-                    log.error("Unable to close response InputStream up after XML parse failure", e);
+                if (LOG.isErrorEnabled()) {
+                    LOG.error("Unable to close response InputStream up after XML parse failure", e);
                 }
             }
             throw new SdkClientException(
@@ -181,8 +181,8 @@ public class XmlResponsesSaxParser {
             // No sanitizing will be performed, return the original input stream unchanged.
             return inputStream;
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Sanitizing XML document destined for handler " + handler.getClass());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Sanitizing XML document destined for handler " + handler.getClass());
             }
 
             InputStream sanitizedInputStream = null;
@@ -223,8 +223,8 @@ public class XmlResponsesSaxParser {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    if (log.isErrorEnabled()) {
-                        log.error(
+                    if (LOG.isErrorEnabled()) {
+                        LOG.error(
                                 "Unable to close response InputStream after failure sanitizing XML document",
                                 e);
                     }
@@ -284,7 +284,7 @@ public class XmlResponsesSaxParser {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException nfe) {
-            log.error("Unable to parse integer value '" + s + "'", nfe);
+            LOG.error("Unable to parse integer value '" + s + "'", nfe);
         }
 
         return -1;
@@ -302,7 +302,7 @@ public class XmlResponsesSaxParser {
         try {
             return Long.parseLong(s);
         } catch (NumberFormatException nfe) {
-            log.error("Unable to parse long value '" + s + "'", nfe);
+            LOG.error("Unable to parse long value '" + s + "'", nfe);
         }
 
         return -1;
@@ -624,7 +624,7 @@ public class XmlResponsesSaxParser {
                                             .getCommonPrefixes()
                                             .get(objectListing.getCommonPrefixes().size() - 1);
                         } else {
-                            log.error(
+                            LOG.error(
                                     "S3 response indicates truncated results, "
                                             + "but contains no object summaries or "
                                             + "common prefixes.");
@@ -636,8 +636,8 @@ public class XmlResponsesSaxParser {
             } else if (in("ListBucketResult")) {
                 if (name.equals("Name")) {
                     objectListing.setBucketName(getText());
-                    if (log.isDebugEnabled()) {
-                        log.debug("Examining listing for bucket: " + objectListing.getBucketName());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Examining listing for bucket: " + objectListing.getBucketName());
                     }
 
                 } else if (name.equals("Prefix")) {
@@ -770,7 +770,7 @@ public class XmlResponsesSaxParser {
                                             .getKey();
 
                         } else {
-                            log.error(
+                            LOG.error(
                                     "S3 response indicates truncated results, "
                                             + "but contains no object summaries.");
                         }
@@ -781,8 +781,8 @@ public class XmlResponsesSaxParser {
             } else if (in("ListBucketResult")) {
                 if (name.equals("Name")) {
                     result.setBucketName(getText());
-                    if (log.isDebugEnabled()) {
-                        log.debug("Examining listing for bucket: " + result.getBucketName());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Examining listing for bucket: " + result.getBucketName());
                     }
 
                 } else if (name.equals("Prefix")) {

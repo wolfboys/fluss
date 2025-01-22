@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 /** Entrance to generate a Java class from a protobuf file. */
 public class ProtoGen {
 
-    private static final Logger log = LoggerFactory.getLogger(ProtoGen.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProtoGen.class);
     private final Proto proto;
     private final String outerClassName;
     private final boolean useOuterClass;
@@ -80,7 +80,7 @@ public class ProtoGen {
             }
 
             formatAndWrite(file, sw.toString());
-            log.info("ProtoGen generated enum {}", file);
+            LOG.info("ProtoGen generated enum {}", file);
             generatedFiles.add(file);
         }
 
@@ -94,7 +94,7 @@ public class ProtoGen {
             }
 
             formatAndWrite(file, sw.toString());
-            log.info("ProtoGen generated class {}", file);
+            LOG.info("ProtoGen generated class {}", file);
             generatedFiles.add(file);
         }
 
@@ -119,7 +119,7 @@ public class ProtoGen {
 
         formatAndWrite(outFile, sw.toString());
 
-        log.info("ProtoGen generated {}", outFile);
+        LOG.info("ProtoGen generated {}", outFile);
         return Collections.singletonList(outFile);
     }
 

@@ -24,7 +24,7 @@ import java.util.concurrent.CountDownLatch;
 /** An abstract thread that is shutdownable . */
 public abstract class ShutdownableThread extends Thread {
 
-    protected final Logger log;
+    protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     private final boolean isInterruptible;
 
@@ -40,7 +40,6 @@ public abstract class ShutdownableThread extends Thread {
     public ShutdownableThread(String name, boolean isInterruptible) {
         super(name);
         this.isInterruptible = isInterruptible;
-        log = LoggerFactory.getLogger(this.getClass());
         this.setDaemon(false);
     }
 
@@ -56,7 +55,7 @@ public abstract class ShutdownableThread extends Thread {
     public boolean initiateShutdown() {
         synchronized (this) {
             if (isRunning()) {
-                log.info("Shutting down");
+                LOG.info("Shutting down");
                 shutdownInitiated.countDown();
                 if (isInterruptible) {
                     interrupt();
@@ -77,7 +76,7 @@ public abstract class ShutdownableThread extends Thread {
             if (isStarted) {
                 shutdownComplete.await();
             }
-            log.info("Shutdown completed");
+            LOG.info("Shutdown completed");
         }
     }
 
@@ -89,7 +88,7 @@ public abstract class ShutdownableThread extends Thread {
 
     public void run() {
         isStarted = true;
-        log.info("Starting");
+        LOG.info("Starting");
         try {
             while (isRunning()) {
                 doWork();
@@ -97,16 +96,16 @@ public abstract class ShutdownableThread extends Thread {
         } catch (Error e) {
             shutdownInitiated.countDown();
             shutdownComplete.countDown();
-            log.info("Stopped");
+            LOG.info("Stopped");
             System.exit(-1);
         } catch (Throwable e) {
             if (isRunning()) {
-                log.error("Error due to", e);
+                LOG.error("Error due to", e);
             }
         } finally {
             shutdownComplete.countDown();
         }
-        log.info("Stopped");
+        LOG.info("Stopped");
     }
 
     public boolean isRunning() {
